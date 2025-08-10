@@ -1,26 +1,753 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* --- Общие стили --- */
+body {
+  background: #000;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.container {
+  width: 100%;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.main {
+  flex: 1;
+  padding: 24px 16px 80px 16px; /* Отступ снизу для навигации */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* В самом низу файла globals.css */
+
+/* --- Стили для модального окна PlansModal --- */
+.plans-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9); /* Полупрозрачный черный фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.plans-modal-header {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.progress-bar-container {
+  position: absolute; /* Таймлайн будет позиционироваться относительно .plans-modal-header */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #333;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #a100ff;
+  transition: width 0.1s linear;
+}
+
+.close-btn {
+  z-index: 2;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #fff;
+  /* Дополнительные стили, которые были разбросаны по разным блокам */
+  margin-top: 10px;
+}
+
+.plans-modal-body {
+  text-align: center;
+  flex: 1;
+}
+
+.plans-modal-body h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.plans-modal-body ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.plans-modal-body li {
+  background: #282828;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.plans-modal-footer {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.ok-btn {
+  background: #a100ff;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* --- Хедеры страниц --- */
+.page-header {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  color: #aaa;
+  margin: 4px 0 0;
+}
+
+/* --- Кнопки --- */
+.btn {
+  border: none;
+  border-radius: 18px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+  background: #a100ff;
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #007aff;
+  color: #fff;
+}
+
+/* --- Главная страница --- */
+.home-main {
+  justify-content: space-between;
+  padding-top: 16px;
+}
+
+.home-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.connect-ton-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.connect-ton-btn {
+  background: #1c1c1e;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+/* --- Уведомление о бета-тестировании --- */
+.beta-notice {
+  background-color: #101010; /* Темно-серый фон */
+  color: #686868; /* Белый текст */
+  padding: 8px 16px;
+  border-radius: 16px;
+  text-align: flex-start;
+  font-size: 0.94rem;
+  font-weight: 400;
+  width: calc(100% - 32px);
+  max-width: 388px;
+  margin-bottom: 24px; /* Отступ от нижнего элемента */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  flex: 1; /* Чтобы контейнер занимал все доступное пространство и центрировал элементы */
+}
+
+.balance-container {
+  margin-top: 32px;
+}
+
+.balance-home {
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.balance-currency {
+  font-size: 1.2rem;
+  color: #8d8d8d;
+  font-weight: 400;
+  margin-top: 4px;
+}
+
+/* --- Навигация --- */
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 420px;
+  background: #101010;
+  height: 72px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.navbar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 12px;
+  transition: opacity 0.2s;
+  opacity: 0.5;
+}
+
+.navbar .nav-active {
+  opacity: 1;
+}
+
+/* --- Списки (задания, лидеры, друзья) --- */
+.list-container {
+  width: 100%;
+  margin-top: 16px;
+  list-style: none;
+  padding: 0;
+}
+
+.list-item {
+  background: #101010;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* --- Tasks --- */
+
+/* --- Task Tabs --- */
+.task-tabs {
+  display: flex;
+  background-color: #101010;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  width: 100%; /* Занимать всю ширину родителя */
+  max-width: none; /* Убрать возможное ограничение максимальной ширины */
+}
+
+.tab-button {
+  flex: 1; /* Чтобы кнопки равномерно распределялись по ширине */
+  background: none;
+  color: #aaa;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.tab-button.active {
+  background-color: #222;
+  color: #fff;
+}
+
+.tab-button:hover {
+  background-color: #1e1e1e;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.task-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-name {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.task-reward {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+.task-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.task-btn.complete {
+  background: #a100ff;
+  color: #fff;
+}
+
+.task-btn.done {
+  background: #444;
+  color: #fff;
+}
+
+/* --- Leaders --- */
+.leader-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.leader-rank {
+  font-size: 1.1rem;
+  font-weight: bold;
+  width: 32px;
+  text-align: left;
+}
+
+.leader-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+  flex: 1;
+}
+
+.leader-name {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.leader-points {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+/* --- Profile --- */
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.profile-avatar {
+  border-radius: 50%;
+}
+
+.profile-username {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.profile-id {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.profile-actions .btn {
+  flex: 1;
+  padding: 10px 0;
+}
+
+.ref-link-block {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.ref-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.ref-content {
+  display: flex;
+  align-items: center;
+  background: #101010;
+  border-radius: 16px;
+  padding: 12px 16px;
+  gap: 8px;
+}
+
+.ref-url {
+  font-size: 0.95rem;
+  color: #fff;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.friends-list-block {
+  width: 100%;
+}
+
+.friends-list-block .list-item {
+  justify-content: space-between;
+}
+
+.friend-name {
+  font-size: 1rem;
+}
+
+.friend-points {
+  color: #a100ff;
+  font-weight: bold;
+}
+
+/* --- Buy Points --- */
+.buy-list {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin-top: 16px;
+}
+
+.buy-item-btn {
+  position: relative;
+  width: 100%;
+  height: 56px;
+  background: #a100ff;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.buy-amount {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.buy-ton {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.buy-ton::before {
+  content: 'TON';
+  font-size: 0.8em;
+  font-weight: 500;
+  color: #c4c4c4;
+  margin-right: 4px;
+}
+
+/* --- Адаптивность --- */
+@media (max-width: 360px) {
+  .page-title {
+    font-size: 2rem;
+  }
+  .page-subtitle {
+    font-size: 1rem;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* --- Стили для модального окна PlansModal --- */
+.plans-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9); /* Полупрозрачный черный фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* --- Стили для шапки модального окна --- */
+.plans-modal-header {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  padding: 24px;
+  flex-shrink: 0;
+  background-color: #101010;
+}
+
+/* --- Исправленные стили для таймлайна --- */
+.progress-bar-container {
+  position: absolute;
+  top: 16px; /* Увеличили отступ сверху, чтобы сместить ниже */
+  left: 50%; /* Сдвигаем на 50% влево */
+  transform: translateX(-50%); /* Смещаем на половину своей ширины назад, чтобы отцентрировать */
+  width: 90%; /* Уменьшили ширину, чтобы сделать уже */
+  height: 4px;
+  background-color: #333;
+  border-radius: 2px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #a100ff;
+  transition: width 0.1s linear;
+}
+
+.plans-modal-body {
+  text-align: center;
+  flex: 1;
+}
+
+.plans-modal-body h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.plans-modal-body ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.plans-modal-body li {
+  background: #282828;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.plans-modal-footer {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.ok-btn {
+  background: #a100ff;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* --- Стили для списка планов в модальном окне --- */
+/* Исправляем круги и их положение */
+.list-item-custom {
+  display: flex;
+  align-items: center;
+  background-color: #090909;
+  border-radius: 50px;
+  padding: 8px;
+  margin-bottom: 12px;
+  min-height: 50px;
+  /* Выравниваем текст по левому краю */
+  text-align: left;
+}
+
+.item-circle {
+  width: 48px; /* Этот параметр отвечает за ширину круга */
+  height: 48px; /* Этот параметр отвечает за высоту круга */
+  background-color: #101010;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px; /* Этот отступ отвечает за смещение круга */
+  margin-left: 2.3px;
+  flex-shrink: 0;
+}
+
+.item-text {
+  flex-grow: 1;
+  font-size: 1rem;
+  color: #7a7a7a
+}
+/* --- Стили для модального окна PlansModal --- */
+.plans-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000; /* Теперь полностью черный фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.plans-modal-content {
+  width: 100vw; /* Занимает всю ширину экрана */
+  max-width: none; /* Убираем ограничение ширины */
+  max-height: 100vh; /* Занимает всю высоту экрана */
+  background: #101010;
+  border-radius: 0; /* Убираем скругление */
+  display: flex;
+  flex-direction: column;
+  padding: 0; /* Убираем внутренние отступы, чтобы контент начинался от краев */
+}
+
+.plan-section-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #a1a1a1;
+  /* Выравниваем текст по левому краю */
+  text-align: left;
+}
+
+/* --- Внутренние отступы теперь будут у элементов внутри --- */
+.plans-modal-header {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  padding: 24px;
+  flex-shrink: 0;
+  background-color: #101010;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  /* Выравниваем текст по левому краю */
+  text-align: left;
+}
+
+/* ... (остальные стили остаются без изменений) ... */
+.plans-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  /* Уменьшаем отступ сверху, чтобы текст начинался выше */
+  padding: 12px 24px 0 24px;
+}
+
+.plans-modal-footer {
+  padding: 24px; /* Добавили отступы для подвала */
+  flex-shrink: 0;
+  background-color: #101010;
+}
+
+.plans-modal-footer {
+  margin-top: 24px;
+  flex-shrink: 0; /* Не сжимается при прокрутке */
+}
+
+.ok-btn {
+  background: #a100ff;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}
+/* --- Стили для шапки главной страницы --- */
+.home-top {
+  display: flex; /* Используем flexbox для выравнивания */
+  justify-content: space-between; /* Распределяем элементы по краям */
+  align-items: center;
+  width: 100%;
+}
+
+.plans-btn {
+  position: absolute;
+  left: -10px;
+  top: auto;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.45rem;
+  line-height: 1;
 }
