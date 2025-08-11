@@ -49,7 +49,7 @@ const PlansModal: React.FC<PlansModalProps> = ({ onClose }) => {
         </div>
         
         <div className="plans-modal-body">
-          <h2 className="modal-title">LEAN's Future Plans</h2>
+          <h2 className="modal-title">LEAN&apos;s Future Plans</h2>
           {plansData.map((section, sectionIndex) => (
             <div key={sectionIndex} style={{ marginBottom: '16px' }}>
               <h3 className="plan-section-title">{section.title}</h3>

@@ -2,7 +2,7 @@ import Navbar from '../components/Navbar';
 import Image from 'next/image';
 import PlansModal from '../components/PlansModal';
 import PlansModalWithTimeline from '../components/PlansModalWithTimeline';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Home() {
   const [showInitialPlans, setShowInitialPlans] = useState(true);
