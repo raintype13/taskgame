@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-// Объявляем интерфейсы для item и plansData
 interface PlanItem {
   title: string;
   items: string[];
@@ -13,31 +12,19 @@ interface PlansModalProps {
 const plansData: PlanItem[] = [
   {
     title: 'Community-Centric Growth & Engagement',
-    items: [
-      'Airdrop & Referral Program',
-      'Strategic Partnerships',
-    ],
+    items: ['Airdrop & Referral Program', 'Strategic Partnerships'],
   },
   {
     title: 'Token Utility & Ecosystem Expansion',
-    items: [
-      'Staking & Governance',
-      'In-App Marketplace',
-    ],
+    items: ['Staking & Governance', 'In-App Marketplace'],
   },
   {
     title: 'The LEAN NFT Marketplace',
-    items: [
-      'Platform Development',
-      'Exclusive Collections',
-    ],
+    items: ['Platform Development', 'Exclusive Collections'],
   },
   {
     title: 'Continuous Development & Transparency',
-    items: [
-      'Regular Updates',
-      'Security & Audits',
-    ],
+    items: ['Regular Updates', 'Security & Audits'],
   },
 ];
 
@@ -45,17 +32,21 @@ const PlansModalWithTimeline: React.FC<PlansModalProps> = ({ onClose }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prev) => prev + 1);
-    }, 50);
+    const totalTime = 15000; // 15 секунд
+    const stepTime = totalTime / 100; // время одного шага (150 мс)
+    let current = 0;
 
-    if (progress >= 100) {
-      clearInterval(timer);
-      onClose();
-    }
+    const timer = setInterval(() => {
+      current += 1;
+      setProgress(current);
+      if (current >= 100) {
+        clearInterval(timer);
+        onClose();
+      }
+    }, stepTime);
 
     return () => clearInterval(timer);
-  }, [progress, onClose]);
+  }, [onClose]);
 
   return (
     <div className="plans-modal-overlay">
@@ -65,13 +56,15 @@ const PlansModalWithTimeline: React.FC<PlansModalProps> = ({ onClose }) => {
             <div className="progress-bar" style={{ width: `${progress}%` }}></div>
           </div>
           <button className="close-btn" onClick={onClose}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
         </div>
-        
+
         <div className="plans-modal-body">
           <h2 className="modal-title">LEAN&apos;s Future Plans</h2>
           {plansData.map((section, sectionIndex) => (
@@ -86,7 +79,7 @@ const PlansModalWithTimeline: React.FC<PlansModalProps> = ({ onClose }) => {
             </div>
           ))}
         </div>
-        
+
         <div className="plans-modal-footer">
           <button className="ok-btn" onClick={onClose}>OK</button>
         </div>

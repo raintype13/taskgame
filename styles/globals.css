@@ -39,13 +39,6 @@ body {
   z-index: 999;
 }
 
-.plans-modal-header {
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-  margin-bottom: 24px;
-}
-
 .progress-bar-container {
   position: absolute; /* Таймлайн будет позиционироваться относительно .plans-modal-header */
   top: 0;
@@ -96,23 +89,6 @@ body {
   padding: 12px;
   border-radius: 12px;
   margin-bottom: 8px;
-}
-
-.plans-modal-footer {
-  margin-top: 24px;
-  text-align: center;
-}
-
-.ok-btn {
-  background: #a100ff;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  width: 100%;
 }
 
 /* --- Хедеры страниц --- */
@@ -490,34 +466,35 @@ body {
   position: relative;
   width: 100%;
   height: 56px;
-  background: #a100ff;
+  background-color: #000; /* фон черный */
   border-radius: 16px;
   margin-bottom: 12px;
-  border: none;
+  border: 2px solid #a100ff; /* обводка вторичным цветом */
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
+  color: #a100ff; /* текст вторичным цветом */
 }
 
 .buy-amount {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #fff;
+  color: #ffffff;
 }
 
 .buy-ton {
   font-size: 1.1rem;
   font-weight: bold;
-  color: #fff;
+  color: #a100ff;
 }
 
 .buy-ton::before {
   content: 'TON';
   font-size: 0.8em;
   font-weight: 500;
-  color: #c4c4c4;
+  color: #a100ff;
   margin-right: 4px;
 }
 
@@ -543,16 +520,6 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 999;
-}
-
-/* --- Стили для шапки модального окна --- */
-.plans-modal-header {
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-  padding: 24px;
-  flex-shrink: 0;
-  background-color: #101010;
 }
 
 /* --- Исправленные стили для таймлайна --- */
@@ -599,48 +566,19 @@ body {
   margin-bottom: 8px;
 }
 
-.plans-modal-footer {
-  margin-top: 24px;
-  text-align: center;
-}
-
-.ok-btn {
-  background: #a100ff;
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  width: 100%;
-}
-
 /* --- Стили для списка планов в модальном окне --- */
 /* Исправляем круги и их положение */
 .list-item-custom {
-  display: flex;
+  display: 50%;
   align-items: center;
-  background-color: #090909;
-  border-radius: 50px;
-  padding: 8px;
-  margin-bottom: 12px;
-  min-height: 50px;
+  background-color: #000000;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 10px;
   /* Выравниваем текст по левому краю */
   text-align: left;
-}
-
-.item-circle {
-  width: 48px; /* Этот параметр отвечает за ширину круга */
-  height: 48px; /* Этот параметр отвечает за высоту круга */
-  background-color: #101010;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 15px; /* Этот отступ отвечает за смещение круга */
-  margin-left: 2.3px;
-  flex-shrink: 0;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .item-text {
@@ -674,10 +612,10 @@ body {
 }
 
 .plan-section-title {
-  font-size: 1.2rem;
+  font-size: 1.2/3rem;
   font-weight: bold;
-  margin-bottom: 8px;
-  color: #a1a1a1;
+  margin-bottom: 17px;
+  color: #888888;
   /* Выравниваем текст по левому краю */
   text-align: left;
 }
@@ -687,13 +625,15 @@ body {
   display: flex;
   justify-content: flex-end;
   position: relative;
-  padding: 24px;
+  padding: 0px;
   flex-shrink: 0;
   background-color: #101010;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 .modal-title {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   margin-bottom: 16px;
   /* Выравниваем текст по левому краю */
@@ -705,19 +645,16 @@ body {
   flex: 1;
   overflow-y: auto;
   /* Уменьшаем отступ сверху, чтобы текст начинался выше */
-  padding: 12px 24px 0 24px;
+  padding: 0px 24px 0 24px;
 }
 
 .plans-modal-footer {
-  padding: 24px; /* Добавили отступы для подвала */
+  padding: 14px; /* Добавили отступы для подвала */
   flex-shrink: 0;
   background-color: #101010;
+  padding-bottom: 0.1 !important;
 }
 
-.plans-modal-footer {
-  margin-top: 24px;
-  flex-shrink: 0; /* Не сжимается при прокрутке */
-}
 
 .ok-btn {
   background: #a100ff;
@@ -729,6 +666,7 @@ body {
   font-weight: bold;
   cursor: pointer;
   width: 100%;
+  margin-top: 0px;
 }
 /* --- Стили для шапки главной страницы --- */
 .home-top {
@@ -740,14 +678,117 @@ body {
 
 .plans-btn {
   position: absolute;
-  left: -10px;
-  top: auto;
+  left: 0px;
+  top: 15,8px;
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #ffffff;
+  color: #c5c5c5;
   cursor: pointer;
   padding: 0;
-  font-size: 1.45rem;
+  font-size: 1.65rem;
   line-height: 1;
+}
+
+.leaders-page {
+  background: linear-gradient(to top, #a100ff 10%, #000 80%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Убираем синий хайлайт при клике/тапе */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Для iOS убираем выделение текста при тапе */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none; /* Для Safari */
+  user-select: none; /* Стандартное свойство для всех браузеров */
+}
+
+.roadmap-subtitle {
+  display: block;
+  font-weight: medium;
+  color: #a100ff;
+}
+.roadmap-description {
+  display: block;
+  font-weight: thin;
+  font-size: 0.7em;
+  color: #a0a0a0; /* Пример цвета */
+  padding-left: 14px;
+}
+
+.modal-contacts {
+  text-align: center; /* Выравнивание по центру */
+  margin-top: 20px;
+  color: #a0a0a0;
+}
+
+.modal-contacts a {
+  color: #a0a0a0;
+  text-decoration: underline;
+}
+
+.contact-item {
+  margin-bottom: 5px;
+  font-size: 0.7em;
+}
+
+/* ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ КНОПКИ */
+.buy-item-btn-b {
+  position: relative;
+  width: 100%;
+  height: 56px;
+  background-color: #a100ff;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  border: 2px solid #a100ff;
+  cursor: pointer;
+  display: flex; /* Используем flexbox */
+  align-items: center; /* Выравнивание по центру по вертикали */
+  justify-content: space-between; /* Распределяем содержимое по краям */
+  padding: 0 24px;
+  color: #000;
+}
+
+/* НОВЫЙ БЛОК ДЛЯ СОДЕРЖИМОГО КНОПКИ */
+.button-content {
+  display: flex;
+  flex-direction: column; /* Размещаем элементы один под другим */
+  align-items: flex-start; /* Выравниваем текст по левому краю */
+}
+
+/* НОВЫЕ СТИЛИ ДЛЯ ОПИСАНИЯ */
+.buy-description-b {
+  font-size: 0.8rem; /* Уменьшенный размер шрифта для описания */
+  font-weight: 600; /* Нормальная толщина шрифта */
+  color: #000000; /* Белый цвет для текста */
+  margin-top: 2px; /* Небольшой отступ сверху от заголовка */
+}
+
+/* СТАРЫЕ СТИЛИ БЕЗ ИЗМЕНЕНИЙ */
+.buy-amount-b {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #000000; /* Цвет текста заголовка кнопки */
+}
+
+.buy-ton-b {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000;
+}
+
+.buy-ton-b::before {
+  content: 'TON';
+  font-size: 0.8em;
+  font-weight: 700;
+  color: #000;
+  margin-right: 4px;
 }

@@ -1,8 +1,19 @@
-import type { NextConfig } from "next";
+// next.config.js
 
-const nextConfig: NextConfig = {
-  /* config options here */
-  reactStrictMode: true,
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Добавьте эту настройку, чтобы разрешить
+  // доступ к ресурсам с других IP в локальной сети
+  rewrites: async () => [
+    {
+      source: '/_next/image',
+      destination: '/_next/image',
+      has: [{
+        type: 'host',
+        value: '192.168.100.57',
+      }],
+    },
+  ],
 };
 
-export default nextConfig;
+module.exports = nextConfig;
