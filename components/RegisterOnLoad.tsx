@@ -38,7 +38,7 @@ export default function RegisterOnLoad() {
             ref: (new URLSearchParams(window.location.search)).get('ref') ?? undefined,
           };
         } else {
-          // @ts-expect-error The Telegram WebApp object is not defined in the Window type.
+          
           const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
           if (!user) {
             console.warn('Telegram user not found in WebApp initDataUnsafe');
