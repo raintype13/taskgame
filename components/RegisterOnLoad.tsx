@@ -28,8 +28,7 @@ export default function RegisterOnLoad() {
     async function register() {
       try {
         const useMock = !!process.env.NEXT_PUBLIC_DISABLE_TELEGRAM;
-        // Заменили const на let, чтобы можно было присвоить значение позже
-        let payload: Payload; 
+        let payload: Payload;
 
         if (useMock) {
           payload = {
@@ -39,7 +38,7 @@ export default function RegisterOnLoad() {
             ref: (new URLSearchParams(window.location.search)).get('ref') ?? undefined,
           };
         } else {
-          // @ts-expect-error
+          // @ts-expect-error The Telegram WebApp object is not defined in the Window type.
           const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
           if (!user) {
             console.warn('Telegram user not found in WebApp initDataUnsafe');
