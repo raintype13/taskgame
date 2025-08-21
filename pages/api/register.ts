@@ -1,69 +1,68 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import crypto from 'crypto'
-import prisma from '../../lib/prisma'
+import { PrismaClient } from '@prisma/client';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-const REFERRAL_BONUS = Number(process.env.REFERRAL_BONUS ?? 100)
-
-function hashTelegramId(tgId: string | number) {
-  return crypto.createHash('sha256').update(String(tgId)).digest('hex')
-}
-
-async function generateUniqueReferralCode() {
-  while (true) {
-    const code = Math.random().toString(36).slice(2, 9).toUpperCase()
-    const exists = await prisma.user.findUnique({ where: { referralCode: code } })
-    if (!exists) return code
-  }
-}
+const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Метод не разрешен' });
+  }
+
+  const { telegramId, telegramUsername, firstName, lastName, ref } = req.body;
 
   try {
-    const { tgId, username, firstName, ref } = req.body
-
-    if (!tgId) return res.status(400).json({ error: 'tgId is required' })
-
-    const telegramHash = hashTelegramId(tgId)
-
-    // проверим, есть ли такой юзер
     let user = await prisma.user.findUnique({
-      where: { telegramHash: telegramHash }, // 👈 строго по схеме
-    })
-    if (user) return res.status(200).json({ user, created: false })
+      where: { telegramId },
+    });
 
-    // новый юзер
-    const safeUsername = username && username !== '' ? username : '<unknown>'
-    const safeFirstName = firstName && firstName !== '' ? firstName : '<unknown>'
-    const referralCode = await generateUniqueReferralCode()
-
-    const inviter = ref ? await prisma.user.findUnique({ where: { referralCode: ref } }) : null
-
-    // транзакция
-    const createdUser = await prisma.$transaction(async (tx) => {
-      const created = await tx.user.create({
+    if (!user) {
+      // Create a new user if one doesn't exist
+      user = await prisma.user.create({
         data: {
-          telegramHash,
-          telegramUsername: safeUsername,
-          firstName: safeFirstName,
-          referralCode,
-          referredBy: inviter ? inviter.referralCode : null,
+          telegramId,
+          telegramUsername: telegramUsername || null,
+          firstName: firstName || null,
+          lastName: lastName || null,
+          points: 0,
+          referralCode: Math.random().toString(36).substring(2, 8).toUpperCase(),
+          referredBy: ref || null,
         },
-      })
+      });
 
-      if (inviter) {
-        await tx.user.update({
-          where: { id: inviter.id },
-          data: { points: { increment: REFERRAL_BONUS } },
-        })
+      // Handle referral logic
+      if (ref) {
+        const inviter = await prisma.user.findUnique({
+          where: { referralCode: ref },
+        });
+
+        if (inviter) {
+          // You can increment a points field
+          await prisma.user.update({
+            where: { referralCode: ref },
+            data: {
+              points: {
+                increment: 50,
+              },
+            },
+          });
+          
+          await prisma.user.update({
+            where: { telegramId },
+            data: {
+              points: {
+                increment: 50,
+              },
+            },
+          });
+        }
       }
+    }
 
-      return created
-    })
-
-    return res.status(201).json({ user: createdUser, created: true })
+    res.status(200).json(user);
   } catch (e) {
-    console.error(e)
-    return res.status(500).json({ error: 'internal_error', detail: String(e) })
+    console.error(e);
+    res.status(500).json({ message: 'Что-то пошло не так' });
+  } finally {
+    await prisma.$disconnect();
   }
 }
