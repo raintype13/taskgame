@@ -28,7 +28,7 @@ export default function RegisterOnLoad() {
     async function register() {
       try {
         const useMock = !!process.env.NEXT_PUBLIC_DISABLE_TELEGRAM;
-        let payload: Payload;
+        const payload: Payload;
 
         if (useMock) {
           payload = {
@@ -63,6 +63,7 @@ export default function RegisterOnLoad() {
         if (!r.ok) {
           console.error('Register error', json);
         } else {
+          // сохраняем пользователя в localStorage / context
           window.localStorage.setItem('lean_user', JSON.stringify(json.user));
           console.log('Registered', json);
         }

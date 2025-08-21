@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { telegramId, telegramUsername, firstName, lastName, ref } = req.body;
 
   try {
-    let user = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: { telegramId },
     });
 
@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           lastName: lastName || null,
           points: 0,
           referralCode: Math.random().toString(36).substring(2, 8).toUpperCase(),
-          referredBy: ref || null,
+          referredBy: ref || null, // Directly set referredBy from the request body
         },
       });
 
@@ -36,16 +36,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         if (inviter) {
-          // You can increment a points field
+          // You need a way to store referrals. The current schema doesn't have a `referrals` field.
+          // You could add a `referralCount` field or create a separate table for referrals.
+          // Here's an example of how you would increment a count:
           await prisma.user.update({
             where: { referralCode: ref },
             data: {
               points: {
-                increment: 50,
+                increment: 50, // Add bonus points
               },
             },
           });
-          
+
+          // Give a bonus to the new user as well
           await prisma.user.update({
             where: { telegramId },
             data: {
