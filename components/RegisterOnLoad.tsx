@@ -38,7 +38,6 @@ export default function RegisterOnLoad() {
             ref: (new URLSearchParams(window.location.search)).get('ref') ?? undefined,
           };
         } else {
-          
           const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
           if (!user) {
             console.warn('Telegram user not found in WebApp initDataUnsafe');
