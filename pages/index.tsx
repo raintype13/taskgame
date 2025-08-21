@@ -1,33 +1,36 @@
-import Navbar from '../components/Navbar';
-import Image from 'next/image';
-import PlansModal from '../components/PlansModal';
-import PlansModalWithTimeline from '../components/PlansModalWithTimeline';
-import { useState, useEffect } from 'react';
+// pages/index.tsx
+import React from 'react'
+import Navbar from '../components/Navbar'
+import Image from 'next/image'
+import PlansModal from '../components/PlansModal'
+import PlansModalWithTimeline from '../components/PlansModalWithTimeline'
+import { useState, useEffect } from 'react'
+import { useBalance } from '../context/BalanceContext'
 
 export default function Home() {
-  const [showInitialPlans, setShowInitialPlans] = useState(false);
-  const [showPlansFromButton, setShowPlansFromButton] = useState(false);
+  const [showInitialPlans, setShowInitialPlans] = useState(false)
+  const [showPlansFromButton, setShowPlansFromButton] = useState(false)
+  const { balance } = useBalance()
 
-  // При загрузке страницы проверяем, показывали ли уже модалку
   useEffect(() => {
-    const hasSeenModal = localStorage.getItem('hasSeenModal');
+    const hasSeenModal = typeof window !== 'undefined' ? localStorage.getItem('hasSeenModal') : null
     if (!hasSeenModal) {
-      setShowInitialPlans(true);
-      localStorage.setItem('hasSeenModal', 'true');
+      setShowInitialPlans(true)
+      if (typeof window !== 'undefined') localStorage.setItem('hasSeenModal', 'true')
     }
-  }, []);
+  }, [])
 
   const handleCloseInitialPlans = () => {
-    setShowInitialPlans(false);
-  };
+    setShowInitialPlans(false)
+  }
 
   const handleOpenPlansFromButton = () => {
-    setShowPlansFromButton(true);
-  };
+    setShowPlansFromButton(true)
+  }
 
   const handleClosePlansFromButton = () => {
-    setShowPlansFromButton(false);
-  };
+    setShowPlansFromButton(false)
+  }
 
   return (
     <div className="container">
@@ -49,13 +52,13 @@ export default function Home() {
         <div className="cup-container">
           <Image src="/lean.png" alt="Lean" width={160} height={160} />
           <div className="balance-container">
-            <div className="balance-home">2 000</div>
+            <div className="balance-home">{(balance ?? 0).toLocaleString()}</div>
             <div className="balance-currency">$LEAN</div>
           </div>
         </div>
       </main>
-      
+
       <Navbar />
     </div>
-  );
+  )
 }

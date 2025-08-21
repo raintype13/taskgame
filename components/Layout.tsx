@@ -1,11 +1,16 @@
-import React from "react";
-import Navbar from "./Navbar";
+import "./globals.css";
+import { UserProvider } from "@/context/UserContext";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <div className="bg-[#0A0A0A] text-white min-h-screen flex flex-col">
-      <main className="flex-1">{children}</main>
-      <Navbar />
-    </div>
+    <html lang="en">
+      <body>
+        <UserProvider>{children}</UserProvider>
+      </body>
+    </html>
   );
 }
