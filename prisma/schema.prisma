@@ -1,0 +1,21 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+model User {
+  id               String  @id @default(cuid())
+  telegramUsername String  @unique
+  firstName        String?
+  points           Int     @default(0)
+  referralCode     String  @unique
+  referredBy       String?
+  tonWalletAddress String? @unique
+  telegramHash     String  @unique @default("00001")
+}
