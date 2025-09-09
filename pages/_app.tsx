@@ -1,11 +1,13 @@
+// pages/_app.tsx
 import type { AppProps } from 'next/app';
-import { BalanceProvider } from '../context/BalanceContext';
-import '../styles/globals.css';
+import { UserProvider } from '@/context/UserContext'; // Убедитесь, что путь верный
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <BalanceProvider>
+    <UserProvider>
       <Component {...pageProps} />
-    </BalanceProvider>
+    </UserProvider>
   );
 }
+
+export default MyApp;
