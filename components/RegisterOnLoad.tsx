@@ -1,7 +1,6 @@
 // components/RegisterOnLoad.tsx
 import { useEffect } from 'react';
-
-// Эта декларация позволяет TypeScript знать о глобальном объекте Telegram.WebApp
+ 
 declare global {
   interface Window {
     Telegram?: {
@@ -30,14 +29,14 @@ export default function RegisterOnLoad() {
         };
 
         if (useMock) {
-          // Данные для локального тестирования
+         
           payload = {
             telegramId: 'local-test-1',
             telegramUsername: 'local_user',
             firstName: 'Local',
           };
         } else {
-          // Получаем данные из Telegram WebApp
+        
           const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
           if (!user) {
             console.warn('Telegram user not found in WebApp initDataUnsafe');
@@ -58,19 +57,15 @@ export default function RegisterOnLoad() {
 
         const json = await r.json();
 
-        if (!r.ok) {
-          console.error('Registration error', json);
-        } else {
-          console.log('User registered/logged in', json);
-        }
+        window.localStorage.setItem('user_data', JSON.stringify(json));
       } catch (e) {
         console.error('Error during registration', e);
       }
     }
     
-    // Запускаем регистрацию один раз при загрузке
+    
     register();
   }, []);
 
-  return null; // Компонент ничего не отображает
+  return null; 
 }

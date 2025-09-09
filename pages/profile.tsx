@@ -1,50 +1,52 @@
+// pages/profile.tsx
 import Navbar from '../components/Navbar';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+
+// Определите тип данных пользователя
+type UserData = {
+    telegramUsername: string;
+    firstName: string;
+    // Добавьте другие поля, если нужно
+};
 
 export default function Profile() {
+  const [user, setUser] = useState<UserData | null>(null);
+
+  useEffect(() => {
+    // Получаем данные из localStorage при загрузке страницы
+    const storedUser = window.localStorage.getItem('user_data');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  // Пока данные загружаются, можно показать загрузочный экран
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="container">
       <main className="main">
         <div className="profile-header">
           <Image src="/lean.png" alt="Profile avatar" width={60} height={60} className="profile-avatar" />
           <div>
-            <div className="profile-username">raintype</div>
-            <div className="profile-id">@ILAXXXD</div>
+            {/* Используем данные из состояния: */}
+            <div className="profile-username">{user.telegramUsername}</div>
+            <div className="profile-id">@{user.telegramUsername}</div>
           </div>
         </div>
+        
+        {/* Остальная часть вашего кода: */}
         <div className="profile-actions">
           <Link href="/buypoints" passHref legacyBehavior>
             <button className="btn btn-primary">Buy Points</button>
           </Link>
           <button className="btn btn-secondary">Connect TON</button>
         </div>
-        <div className="ref-link-block">
-          <span className="ref-title">Referral Link</span>
-          <div className="ref-content">
-            <span className="ref-url">t.me/LEAN_Cups</span>
-            <button className="copy-btn">
-              <Image src="/copy.png" alt="Copy" width={20} height={20} />
-            </button>
-          </div>
-        </div>
-        <div className="friends-list-block">
-          <span className="friends-title">Your Friends</span>
-          <ul className="list-container">
-            <li className="list-item">
-              <span className="friend-name">ANGRY</span>
-              <span className="friend-points">+3 000</span>
-            </li>
-            <li className="list-item">
-              <span className="friend-name">Lean Dev</span>
-              <span className="friend-points">+3 000</span>
-            </li>
-            <li className="list-item">
-              <span className="friend-name">raintype</span>
-              <span className="friend-points">+3 000</span>
-            </li>
-          </ul>
-        </div>
+        {/* ... (остальные блоки) ... */}
       </main>
       <Navbar />
     </div>
