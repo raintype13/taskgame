@@ -1,7 +1,7 @@
 // components/RegisterOnLoad.tsx
 import { useEffect } from 'react';
-import { useUser } from '@/context/UserContext';
 
+// Декларация для Telegram.WebApp
 declare global {
   interface Window {
     Telegram?: {
@@ -19,17 +19,24 @@ declare global {
 }
 
 export default function RegisterOnLoad() {
-    const { setUser } = useUser();
-
     useEffect(() => {
-        async function register() {
+        async function registerAndCache() {
+            // 1. Проверяем, есть ли данные в localStorage
+            const cachedUser = window.localStorage.getItem('user_data');
+            if (cachedUser) {
+                console.log('User data loaded from cache.');
+                // Если данные есть, прекращаем работу, чтобы не делать лишний API-запрос
+                return; 
+            }
+            
+            // 2. Если данных нет, продолжаем регистрацию через API
             try {
-                // ... (Остальная часть кода для получения payload остается без изменений) ...
+                // ... (Код для мокирования и получения данных Telegram) ...
                 const useMock = !!process.env.NEXT_PUBLIC_DISABLE_TELEGRAM;
                 let payload: {
-                    telegramId?: string;
-                    telegramUsername?: string;
-                    firstName?: string;
+                    telegramId: string;
+                    telegramUsername: string | null;
+                    firstName: string | null;
                 };
 
                 if (useMock) {
@@ -46,8 +53,8 @@ export default function RegisterOnLoad() {
                     }
                     payload = {
                         telegramId: user.id,
-                        telegramUsername: user.username ?? undefined,
-                        firstName: user.first_name ?? undefined,
+                        telegramUsername: user.username ?? null,
+                        firstName: user.first_name ?? null,
                     };
                 }
 
@@ -62,17 +69,17 @@ export default function RegisterOnLoad() {
                 if (!r.ok) {
                     console.error('Registration error', json);
                 } else {
-                    console.log('User registered/logged in', json);
-                    // Сохраняем данные в контекст
-                    setUser(json);
+                    console.log('User registered/logged in. Caching data.');
+                    // 3. Сохраняем данные в localStorage
+                    window.localStorage.setItem('user_data', JSON.stringify(json));
                 }
             } catch (e) {
                 console.error('Error during registration', e);
             }
         }
         
-        register();
-    }, [setUser]);
+        registerAndCache();
+    }, []);
 
     return null;
 }

@@ -1,27 +1,24 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { Home, List, BarChart, User, ShoppingCart } from "lucide-react";
 
-// Добавлен элемент для "Buy Points", но без отдельной страницы в навигации.
-// В дизайне он находится в профиле, поэтому в навигации его нет.
-// Если нужно, чтобы он был в навигации, можно просто раскомментировать.
-const navItems = [
-  { href: '/', icon: '/home.png', alt: 'Home' },
-  { href: '/tasks', icon: '/tasks.png', alt: 'Tasks' },
-  { href: '/leaders', icon: '/leaders.png', alt: 'Leaders' },
-  { href: '/profile', icon: '/profile.png', alt: 'Profile' },
+const nav = [
+  { href: "/", icon: <Home size={24} /> },
+  { href: "/tasks", icon: <List size={24} /> },
+  { href: "/leaders", icon: <BarChart size={24} /> },
+  { href: "/profile", icon: <User size={24} /> },
+  { href: "/buy", icon: <ShoppingCart size={24} /> },
 ];
 
 export default function Navbar() {
-  const router = useRouter();
-
+  const { pathname } = useRouter();
   return (
-    <nav className="navbar">
-      {navItems.map(item => (
-        <Link href={item.href} key={item.href} legacyBehavior>
-          <a className={router.pathname === item.href ? 'nav-active' : ''}>
-            <Image src={item.icon} alt={item.alt} width={32} height={32} />
-          </a>
+    <nav className="fixed bottom-0 w-full bg-[#141414] flex justify-around py-3 border-t border-neutral-800">
+      {nav.map(({ href, icon }) => (
+        <Link key={href} href={href}>
+          <div className={`${pathname === href ? "text-purple-500" : "text-white"}`}>
+            {icon}
+          </div>
         </Link>
       ))}
     </nav>
